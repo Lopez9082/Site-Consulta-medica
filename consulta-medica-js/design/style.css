@@ -1,0 +1,16 @@
+body {
+    font-family: 'Times New Roman', Times;
+    background-color: #f4f4f4;
+    margin: 20px;
+}
+
+h1 {
+    color: rgb(0, 0, 255);
+    text-align: center;
+}
+
+input,
+button {
+    padding: 8px;
+    margin: 5px;
+}
