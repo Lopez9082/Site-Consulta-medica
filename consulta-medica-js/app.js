@@ -1,8 +1,0 @@
-<script> 
-
-
-    çkjljasnsdfnnask
-
-
-    
-</script>
