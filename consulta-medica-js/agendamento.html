@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Inicial - Consultório</title>
+    <link rel="stylesheet" href="design/style.css">
+</head>
+<body>
+
+    <!-- Barra de navegação -->
+    <header class="navbar">
+        <div class="logo">
+            <h2>Consultório</h2>
+        </div>
+        <nav class="nav-actions">
+            <a href="login.html" class="btn-login">Login</a>
+
+            <div class="menu-container">
+                <button class="menu-btn">⋮</button>
+                <div class="dropdown">
+                    <a href="#sobre">Sobre</a>
+                    <a href="#servicos">Serviços</a>
+                    <a href="#contato">Contato</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Conteúdo principal -->
+    <main class="hero">
+        <h1>Bem-vindo ao Consultório</h1>
+        <p>Agende suas consultas de forma prática e rápida.</p>
+    </main>
+
+    <!-- Rodapé -->
+    <footer>
+        <p>&copy; 2025 Consultório - Todos os direitos reservados</p>
+    </footer>
+
+    <!-- Script para abrir/fechar o menu -->
+    <script>
+        const menuBtn = document.querySelector('.menu-btn');
+        const dropdown = document.querySelector('.dropdown');
+
+        menuBtn.addEventListener('click', () => {
+            dropdown.classList.toggle('show');
+        });
+
+        // Fecha o menu ao clicar fora
+        window.addEventListener('click', (e) => {
+            if (!menuBtn.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+    </script>
+
+</body>
+</html>
