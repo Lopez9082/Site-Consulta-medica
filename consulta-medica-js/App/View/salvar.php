@@ -5,7 +5,7 @@ require_once 'conexao.php';
 // Pega os dados do formulário
 $email = $_POST['email'] ?? '';
 $senha = $_POST['senha'] ?? '';
-$nome = $_POST['nome'] ?? '';
+$nome = $_POST['root'] ?? '';
 $data_nascimento = $_POST['Data_Nas'] ?? '';
 
 // Validação simples

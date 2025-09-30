@@ -1,0 +1,154 @@
+/* Variáveis para consistência */
+:root {
+    --primary-color: #4c51bf; /* Índigo */
+    --success-color: #059669; /* Verde */
+    --background-light: #f9fafb; /* Fundo mais claro */
+    --text-dark: #1a202c;
+    --border-light: #d1d5db;
+    --input-bg: #fff;
+    --input-focus-shadow: rgba(76, 81, 191, 0.3);
+}
+
+/* Reset e fonte */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--background-light);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Container */
+.login-container {
+    max-width: 480px;
+    width: 100%;
+    margin: auto;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+/* Form box */
+.login-box {
+    background: var(--input-bg);
+    padding: 3rem 2.5rem 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+    position: relative;
+}
+
+/* Título */
+.login-box h2 {
+    color: var(--text-dark);
+    text-align: center;
+    margin-bottom: 2.5rem;
+    font-size: 2.25rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+/* Floating labels container */
+.login-box .form-group,
+.login-box > label {
+    position: relative;
+    margin-bottom: 1.8rem;
+}
+
+/* Inputs e selects */
+.login-box input[type="email"],
+.login-box input[type="password"],
+.login-box input[type="text"],
+.login-box input[type="date"],
+.login-box select {
+    width: 100%;
+    padding: 1.1rem 1rem 1.1rem 1rem;
+    font-size: 1rem;
+    border: 1.8px solid var(--border-light);
+    border-radius: 10px;
+    background: var(--input-bg);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    outline: none;
+}
+
+/* Foco nos inputs */
+.login-box input:focus,
+.login-box select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 8px var(--input-focus-shadow);
+}
+
+/* Floating label */
+.login-box label {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+    background: var(--input-bg);
+    padding: 0 0.3rem;
+    color: #6b7280;
+    font-weight: 600;
+    font-size: 1rem;
+    pointer-events: none;
+    transition: 0.3s ease all;
+    user-select: none;
+}
+
+/* Quando o input está focado ou preenchido */
+.login-box input:focus + label,
+.login-box input:not(:placeholder-shown) + label,
+.login-box select:focus + label,
+.login-box select:not([value=""]) + label {
+    top: -0.6rem;
+    left: 0.8rem;
+    font-size: 0.75rem;
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+/* Botão */
+.btn-login {
+    width: 100%;
+    padding: 1.2rem;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #059669, #10b981);
+    color: white;
+    font-weight: 700;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-top: 2.5rem;
+    box-shadow: 0 6px 15px rgba(5, 150, 105, 0.4);
+    transition: all 0.3s ease;
+}
+
+.btn-login:hover {
+    background: linear-gradient(135deg, #047857, #059669);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(5, 150, 105, 0.5);
+}
+
+/* Rodapé */
+footer {
+    margin-top: 2rem;
+    color: #9ca3af;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    .login-box {
+        padding: 2rem 1.5rem 1.5rem;
+    }
+    .login-box h2 {
+        font-size: 1.75rem;
+    }
+}
