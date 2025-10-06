@@ -3,10 +3,19 @@
 require_once 'conexao.php';
 
 // Pega os dados do formulário
+
 $email = $_POST['email'] ?? '';
 $senha = $_POST['senha'] ?? '';
-$nome = $_POST['root'] ?? '';
-$data_nascimento = $_POST['Data_Nas'] ?? '';
+$nome = $_POST['nome'] ?? '';
+$data_nascimento = $_POST['data_nas'] ?? '';
+$cpf = $_POST['CPF'] ??'';
+$telefone = $_POST['telefone'] ??'';
+$cep = $_POST['cep'] ??'';
+$endereco = $_POST['endereco'] ??'';
+$estado = $_POST['estado'] ??'';
+$complemento = $_POST['complemento'] ??'';
+$cidade = $_POST['cidade'] ??'';
+$pais = $_POST['pais'] ??'';
 
 // Validação simples
 if (strlen($senha) < 10) {
@@ -17,7 +26,7 @@ if (strlen($senha) < 10) {
 $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
 
 // Prepara e executa a inserção
-$sql = "INSERT INTO usuarios (email, senha, nome, data_nascimento) VALUES (?, ?, ?, ?)";
+$sql = "INSERT INTO pacientes (Email_Pac, Senha_Pac, Nome_Pac, Data_Nas) VALUES (?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("ssss", $email, $senha_hash, $nome, $data_nascimento);
 

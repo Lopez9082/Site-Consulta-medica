@@ -1,3 +1,7 @@
+<?php
+// cadastro_paciente.php
+require_once __DIR__ . '/../Models/Pacientes_model.php';
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -8,7 +12,7 @@
 </head>
 <body>
     <div class="login-container">
-        <form class="login-box" action="salvar.php" method="post" id="cadastroForm" novalidate>
+        <form class="login-box" method="post" id="cadastroForm" novalidate>
             <!-- Indicador de Progresso -->
             <div class="progress-indicator" role="progressbar" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1">
                 <div class="progress-step active" data-step="1">
@@ -50,7 +54,7 @@
 
                 <div class="form-group">
                     <input type="date" name="Data_Nas" id="Data_Nas" required max="">
-                    <label for="Data_Nas">Data de Nascimento (maior de 18 anos)</label>
+                    <label for="data_nas">Data de Nascimento (maior de 18 anos)</label>
                     <div class="error-tooltip"></div>
                 </div>
 
@@ -97,12 +101,7 @@
                         <input type="text" id="endereco" name="endereco" placeholder="Rua, avenida..." required>
                         <label for="endereco">Endereço</label>
                         <div class="error-tooltip"></div>
-                    </div>
-                    <div class="form-group half-width">
-                        <input type="text" id="numero" name="numero" placeholder="Número" required>
-                        <label for="numero">Número</label>
-                        <div class="error-tooltip"></div>
-                    </div>
+                </div>
                 </div>
 
                 <div class="form-row">
