@@ -1,6 +1,6 @@
 <?php
 // cadastro_paciente.php
-require_once __DIR__ . '/../Models/Pacientes_model.php';
+//require_once __DIR__ . '/../Models/Pacientes_model.php';
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -12,7 +12,7 @@ require_once __DIR__ . '/../Models/Pacientes_model.php';
 </head>
 <body>
     <div class="login-container">
-        <form class="login-box" method="post" id="cadastroForm" novalidate>
+        <form class="login-box" method="post" id="cadastroForm" action="Pacientes_model.php" novalidate>
             <!-- Indicador de Progresso -->
             <div class="progress-indicator" role="progressbar" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1">
                 <div class="progress-step active" data-step="1">
@@ -208,5 +208,31 @@ require_once __DIR__ . '/../Models/Pacientes_model.php';
     </footer>
 
     <script src="js/cadastrosla.js"></script>
+
+<script>
+    // Exemplo com fetch + JSON
+const dados = {
+    nome: document.getElementById('nome').value,
+    email: document.getElementById('email').value,
+    senha: document.getElementById('senha').value,
+    Data_Nas: document.getElementById('Data_Nas').value,
+    // e todos os outros campos...
+};
+
+fetch('index.php?controller=pacientes&action=cadastrar', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(dados)
+})
+.then(res => res.json())
+.then(data => {
+    if (data.sucesso) {
+        alert(data.mensagem);
+    } else {
+        alert("Erro: " + data.mensagem);
+    }
+});
+
+</script>
 </body>
 </html>

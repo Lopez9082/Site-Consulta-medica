@@ -1,41 +1,36 @@
 <?php
-// Inclui conexão com banco
-require_once 'conexao.php';
+require_once __DIR__ . '/../conexao.php';
 
-// Pega os dados do formulário
+class PacienteModel {
+    private $conn;
 
-$email = $_POST['email'] ?? '';
-$senha = $_POST['senha'] ?? '';
-$nome = $_POST['nome'] ?? '';
-$data_nascimento = $_POST['data_nas'] ?? '';
-$cpf = $_POST['CPF'] ??'';
-$telefone = $_POST['telefone'] ??'';
-$cep = $_POST['cep'] ??'';
-$endereco = $_POST['endereco'] ??'';
-$estado = $_POST['estado'] ??'';
-$complemento = $_POST['complemento'] ??'';
-$cidade = $_POST['cidade'] ??'';
-$pais = $_POST['pais'] ??'';
+    public function __construct() {
+        $this->conn = conectar(); // função em conexao.php
+    }
 
-// Validação simples
-if (strlen($senha) < 10) {
-    die("A senha deve ter no mínimo 10 caracteres.");
+    public function cadastrarPaciente($email, $senha, $nome, $data_nas, $cpf, $telefone, $cep, $endereco, $estado, $complemento, $cidade, $pais) {
+        if (strlen($senha) < 10) {
+            return "A senha deve ter no mínimo 10 caracteres.";
+        }
+
+        $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
+
+        $sql = "INSERT INTO pacientes (Email_Pac, Senha_Pac, Nome_Pac, Data_Nas, CPF, Telefone, CEP, Endereco, Estado, Complemento, Cidade, Pais)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("ssssssssssss", $email, $senha_hash, $nome, $data_nas, $cpf, $telefone, $cep, $endereco, $estado, $complemento, $cidade, $pais);
+
+        if ($stmt->execute()) {
+            return "Cadastro realizado com sucesso!";
+        } else {
+            return "Erro ao cadastrar: " . $stmt->error;
+        }
+    }
+
+    public function listarPacientes() {
+        $sql = "SELECT * FROM pacientes";
+        $res = $this->conn->query($sql);
+        return $res->fetch_all(MYSQLI_ASSOC);
+    }
 }
-
-// Criptografa a senha
-$senha_hash = password_hash($senha, PASSWORD_DEFAULT);
-
-// Prepara e executa a inserção
-$sql = "INSERT INTO pacientes (Email_Pac, Senha_Pac, Nome_Pac, Data_Nas) VALUES (?, ?, ?, ?)";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("ssss", $email, $senha_hash, $nome, $data_nascimento);
-
-if ($stmt->execute()) {
-    echo "Cadastro realizado com sucesso!";
-} else {
-    echo "Erro ao cadastrar: " . $stmt->error;
-}
-
-$stmt->close();
-$conn->close();
-?>

@@ -1,0 +1,13 @@
+CRITICAL - 2025-10-09 02:09:07 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "cadastro.php"
+[Method: GET, Route: pacientes/cadastro]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(214): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('cadastro.php')
+ 2 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('cadastro', [], true)
+ 3 APPPATH\Controllers\Pacientes.php(10): view('cadastro')
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Pacientes->cadastro()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pacientes))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\wamp64\\www\\Trabalho_Engenharia\\consulta_medica\\public\\index.php')
