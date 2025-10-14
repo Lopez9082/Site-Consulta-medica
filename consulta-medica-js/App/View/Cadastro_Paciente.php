@@ -1,3 +1,7 @@
+<?php
+// cadastro_paciente.php
+//require_once __DIR__ . '/../Models/Pacientes_model.php';
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -10,10 +14,37 @@
    <link rel="stylesheet" href="design/cadastro1.css">
 </head>
 <body>
+<<<<<<< HEAD
     <div class="cadastro-container">
         <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="4" aria-valuenow="1">
             <div class="step active" data-step="1">
                 <span class="step-number">1</span>
+=======
+    <div class="login-container">
+        <form class="login-box" method="post" id="cadastroForm" action="Pacientes_model.php" novalidate>
+            <!-- Indicador de Progresso -->
+            <div class="progress-indicator" role="progressbar" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1">
+                <div class="progress-step active" data-step="1">
+                    <span class="step-number" aria-hidden="true">1</span>
+                    <span class="step-icon" aria-hidden="true">👤</span>
+                    <span class="step-label">Dados Básicos</span>
+                </div>
+                <div class="progress-step" data-step="2">
+                    <span class="step-number" aria-hidden="true">2</span>
+                    <span class="step-icon" aria-hidden="true">🆔</span>
+                    <span class="step-label">Identificação</span>
+                </div>
+                <div class="progress-step" data-step="3">
+                    <span class="step-number" aria-hidden="true">3</span>
+                    <span class="step-icon" aria-hidden="true">🏠</span>
+                    <span class="step-label">Endereço</span>
+                </div>
+                <div class="progress-step" data-step="4">
+                    <span class="step-number" aria-hidden="true">4</span>
+                    <span class="step-icon" aria-hidden="true">📧</span>
+                    <span class="step-label">Conta</span>
+                </div>
+>>>>>>> b952ab7d2f3040ee8ee64379a8a5d51fa950cdf4
             </div>
             <div class="step" data-step="2">
                 <span class="step-number">2</span>
@@ -37,9 +68,19 @@
                     <span class="error-message" id="error-nome"></span>
                 </div>
                 <div class="form-group">
+<<<<<<< HEAD
                     <label for="data_nasc">Data de Nascimento</label>
                     <input type="date" id="data_nasc" name="data_nasc" required>
                     <span class="error-message" id="error-data_nasc"></span>
+=======
+                    <input type="date" name="Data_Nas" id="Data_Nas" required max="">
+                    <label for="data_nas">Data de Nascimento (maior de 18 anos)</label>
+                    <div class="error-tooltip"></div>
+                </div>
+
+                <div class="form-navigation">
+                    <button type="button" class="btn-next" data-next="2">Próximo</button>
+>>>>>>> b952ab7d2f3040ee8ee64379a8a5d51fa950cdf4
                 </div>
                 <button type="button" class="btn-next full-width" data-next="2">Continuar</button>
             </div>
@@ -71,6 +112,7 @@
                     <input type="text" id="cidade" name="cidade" placeholder="Digite sua cidade" required>
                     <span class="error-message" id="error-cidade"></span>
                 </div>
+<<<<<<< HEAD
                 <div class="form-group">
                     <label for="estado">Estado</label>
                     <select id="estado" name="estado" required>
@@ -104,6 +146,15 @@
                         <option value="TO">Tocantins (TO)</option>
                     </select>
                     <span class="error-message" id="error-estado"></span>
+=======
+
+                <div class="form-row">
+                    <div class="form-group half-width">
+                        <input type="text" id="endereco" name="endereco" placeholder="Rua, avenida..." required>
+                        <label for="endereco">Endereço</label>
+                        <div class="error-tooltip"></div>
+                </div>
+>>>>>>> b952ab7d2f3040ee8ee64379a8a5d51fa950cdf4
                 </div>
                 <div class="navigation">
                     <button type="button" class="btn-prev" data-prev="2">Voltar</button>
@@ -137,6 +188,40 @@
         </form>
     </div>
 
+<<<<<<< HEAD
     <script src="../js/cadastrosla.js"></script>
+=======
+    <footer>
+        <p>&copy; 2024 José, Beatriz, Fernando</p>
+    </footer>
+
+    <script src="js/cadastrosla.js"></script>
+
+<script>
+    // Exemplo com fetch + JSON
+const dados = {
+    nome: document.getElementById('nome').value,
+    email: document.getElementById('email').value,
+    senha: document.getElementById('senha').value,
+    Data_Nas: document.getElementById('Data_Nas').value,
+    // e todos os outros campos...
+};
+
+fetch('index.php?controller=pacientes&action=cadastrar', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(dados)
+})
+.then(res => res.json())
+.then(data => {
+    if (data.sucesso) {
+        alert(data.mensagem);
+    } else {
+        alert("Erro: " + data.mensagem);
+    }
+});
+
+</script>
+>>>>>>> b952ab7d2f3040ee8ee64379a8a5d51fa950cdf4
 </body>
 </html>
