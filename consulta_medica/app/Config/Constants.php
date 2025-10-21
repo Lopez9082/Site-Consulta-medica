@@ -24,6 +24,8 @@ defined('APP_NAMESPACE') || define('APP_NAMESPACE', 'App');
  | the vendor folder is in the Root directory, but you can customize that here.
  */
 defined('COMPOSER_PATH') || define('COMPOSER_PATH', ROOTPATH . 'vendor/autoload.php');
+defined('UPLOAD_PATH') || define('UPLOAD_PATH', FCPATH . 'uploads/');
+defined('SITE_NAME')   || define('SITE_NAME', 'Consulta Médica');
 
 /*
  |--------------------------------------------------------------------------

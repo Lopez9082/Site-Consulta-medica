@@ -10,4 +10,4 @@ in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
  7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
  8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
  9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
-10 SYSTEMPATH\rewrite.php(44): require_once('C:\\wamp64\\www\\Trabalho_Engenharia\\consulta_medica\\public\\index.php')
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\wamp64\\www\\Trabalho_Clinica\\consulta_medica\\public\\index.php')

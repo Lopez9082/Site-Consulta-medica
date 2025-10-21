@@ -10,4 +10,5 @@ use CodeIgniter\Router\RouteCollection;
 
 $routes->get('pacientes/cadastro', 'Pacientes::cadastro');  
 $routes->post('pacientes/cadastrar', 'Pacientes::cadastrar');
+$routes->get('blog', 'Blog::index');
 
