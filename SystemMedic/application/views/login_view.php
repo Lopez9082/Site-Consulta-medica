@@ -1,23 +1,23 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Login Paciente</title>
-</head>
-<body>
-    <h2>Login</h2>
+<?php $this->load->view('includes/header', ['title' => 'Login']); ?>
 
-    <?php if (isset($erro)) : ?>
-        <p style="color: red;"><?= $erro ?></p>
-    <?php endif; ?>
+<h2>Login</h2>
 
-    <form method="post" action="<?= base_url('login/autenticar') ?>">
-        <label>Email:</label><br>
-        <input type="text" name="email" required><br><br>
+<?php if (isset($erro)) : ?>
+    <div class="alert alert-danger"><?= $erro ?></div>
+<?php endif; ?>
 
-        <label>Senha:</label><br>
-        <input type="password" name="senha" required><br><br>
+<form method="post" action="<?= base_url('login/autenticar') ?>">
+    <div class="form-group">
+        <label>Email:</label>
+        <input type="text" name="email" class="form-control" required>
+    </div>
 
-        <input type="submit" value="Entrar">
-    </form>
-</body>
-</html>
+    <div class="form-group">
+        <label>Senha:</label>
+        <input type="password" name="senha" class="form-control" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Entrar</button>
+</form>
+
+<?php $this->load->view('includes/footer'); ?>

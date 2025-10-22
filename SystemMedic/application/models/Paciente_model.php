@@ -18,4 +18,14 @@ class Paciente_model extends CI_Model {
             return false;
         }
     }
+
+    public function inserir($dados)
+    {
+        return $this->db->insert($this->table, $dados);
+    }
+
+    public function listar()
+    {
+        return $this->db->get($this->table)->result();
+    }
 }
