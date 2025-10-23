@@ -3,6 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Paciente_model extends CI_Model {
 
+        protected $table = 'pacientes';
+
     public function __construct() {
         parent::__construct();
     }
@@ -28,4 +30,21 @@ class Paciente_model extends CI_Model {
     {
         return $this->db->get($this->table)->result();
     }
+
+    public function get_all()
+    {
+        return $this->db->get('pacientes')->result();
+    }
+
+    public function get_by_id($id) 
+    {
+        return $this->db->get_where($this->table, ['Id' => $id])->row();
+    }
+
+    public function update($id, $dados)
+{
+    $this->db->where('Id', $id);
+    return $this->db->update('pacientes', $dados);
+}
+
 }

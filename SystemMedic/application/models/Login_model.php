@@ -24,10 +24,12 @@ class Login_model extends CI_Model {
     }
 
     public function autenticar_medico($nome, $senha) {
-        $this->db->where('nome', $nome);
-        $this->db->where('senha ', $senha); // campo com espaço!
-        $query = $this->db->get('medico');
+        $this->db->where('Email_Med', $nome);
+        $this->db->where('Senha_Med ', $senha); // campo com espaço!
+        $query = $this->db->get('medicos');
 
         return $query->row();
     }
+
+    
 }

@@ -58,5 +58,6 @@ $route['balcao'] = 'balcao/index';
 $route['balcao/pacientes'] = 'balcao/pacientes';
 $route['balcao/medicos'] = 'balcao/medicos';
 $route['balcao/consultas'] = 'balcao/consultas';
+$route['balcao/salvar_paciente'] = 'balcao/salvar_paciente';
 
 

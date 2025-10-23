@@ -21,7 +21,9 @@
                 </thead>
                 <tbody>
                     <?php foreach ($pacientes as $pac): ?>
-                        <tr class="linha-paciente" data-id="<?= $pac->Id ?>">
+                        <tr class="linha-paciente" 
+                            data-id="<?= $pac->Cod_Pac ?>" 
+                            style="cursor: pointer;">
                             <td><?= $pac->Nome_Pac ?? $pac->Nome ?></td>
                             <td><?= isset($pac->Data_Nas) ? date('d/m/Y', strtotime($pac->Data_Nas)) : '-' ?></td>
                             <td><?= $pac->Cpf_cnpj ?></td>
@@ -47,7 +49,7 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // 🔍 Pesquisa dinâmica
+    // Pesquisa dinâmica
     const pesquisa = document.getElementById('pesquisaPaciente');
     const tabela = document.getElementById('tabelaPacientes').getElementsByTagName('tbody')[0];
 
@@ -60,13 +62,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // 🖱️ Clique na linha para abrir perfil
-    const linhas = document.querySelectorAll('.linha-paciente');
-    linhas.forEach(linha => {
-        linha.style.cursor = 'pointer';
-        linha.addEventListener('click', () => {
-            const id = linha.getAttribute('data-id');
-            window.location.href = "<?= site_url('balcao/perfil_paciente/') ?>" + id;
+    // Clique na linha para abrir a ficha do paciente
+    document.querySelectorAll('.linha-paciente').forEach(linha => {
+        linha.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            if (id) {
+                window.location.href = "<?= site_url('medico/ficha_paciente/') ?>" + id;
+            }
         });
     });
 });

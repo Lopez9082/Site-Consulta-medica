@@ -20,7 +20,7 @@ public function autenticar() {
     $email = $this->input->post('email');
     $senha = $this->input->post('senha');
 
-    // Tenta autenticar como paciente
+    // Paciente
     $paciente = $this->Login_model->autenticar_paciente($email, $senha);
     if ($paciente) {
         $this->session->set_userdata([
@@ -31,7 +31,7 @@ public function autenticar() {
         return;
     }
 
-    // Tenta autenticar como balcão
+    // Balcão
     $balcao = $this->Login_model->autenticar_balcao($email, $senha);
     if ($balcao) {
         $this->session->set_userdata([
@@ -42,21 +42,22 @@ public function autenticar() {
         return;
     }
 
-    // Tenta autenticar como médico
+    // Médico 👇
     $medico = $this->Login_model->autenticar_medico($email, $senha);
     if ($medico) {
         $this->session->set_userdata([
             'usuario' => $medico,
             'tipo_usuario' => 'medico'
         ]);
-        redirect('login/dashboard');
+        redirect('medico');;
         return;
     }
 
-    // Nenhum usuário autenticado
+    // Nenhum encontrado
     $data['erro'] = "Email ou senha inválidos.";
     $this->load->view('login_view', $data);
 }
+
 
 
     public function dashboard() {
@@ -66,7 +67,6 @@ public function autenticar() {
 
     $tipo = $this->session->userdata('tipo_usuario');
 
-    // Redirecione para dashboards diferentes conforme tipo
     switch ($tipo) {
         case 'paciente':
             $this->load->view('dashboard_paciente');
