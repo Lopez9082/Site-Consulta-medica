@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Paciente_model extends CI_Model {
 
-        protected $table = 'pacientes';
+    protected $table = 'pacientes';
 
     public function __construct() {
         parent::__construct();

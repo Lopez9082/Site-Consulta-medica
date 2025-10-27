@@ -59,6 +59,40 @@ public function get_consultas_paciente($id_paciente)
     return $this->db->get()->result();
 }
 
+public function get_consultas_futuras($id_paciente)
+{
+    $this->db->select('
+        consultas.Id,
+        consultas.Data_Consulta,
+        consultas.Horario,
+        medicos.Nome_Med,
+        medicos.Especialidade
+    ');
+    $this->db->from('consultas');
+    $this->db->join('medicos', 'medicos.Id = consultas.Id_Medico', 'left');
+    $this->db->where('consultas.Id_Paciente', $id_paciente);
+    $this->db->where('consultas.Data_Consulta >=', date('Y-m-d')); // somente futuras
+    $this->db->order_by('consultas.Data_Consulta', 'ASC');
+    return $this->db->get()->result();
+}
+
+public function get_consultas_passadas($id_paciente)
+{
+    $this->db->select('
+        consultas.Id,
+        consultas.Data_Consulta,
+        consultas.Horario,
+        medicos.Nome_Med,
+        medicos.Especialidade
+    ');
+    $this->db->from('consultas');
+    $this->db->join('medicos', 'medicos.Id = consultas.Id_Medico', 'left');
+    $this->db->where('consultas.Id_Paciente', $id_paciente);
+    $this->db->where('consultas.Data_Consulta <', date('Y-m-d')); // somente passadas
+    $this->db->order_by('consultas.Data_Consulta', 'DESC');
+    return $this->db->get()->result();
+}
+
 
 
 }

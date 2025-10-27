@@ -3,7 +3,7 @@
 
     <?php if (!empty($paciente)): ?>
         <div class="card shadow p-4">
-            <form action="<?= site_url('balcao/editar/' . $paciente->Id) ?>" method="post">
+            <form action="<?= site_url('balcao/salvar_edicao_paciente/' . $paciente->Id) ?>" method="post">
                 <div class="row mb-3">
                     <div class="col-md-4 text-center">
                         <div class="rounded-circle bg-light border p-4 d-flex align-items-center justify-content-center" 
@@ -51,10 +51,20 @@
                                 <input type="email" name="Email_Pac" class="form-control" 
                                        value="<?= set_value('Email_Pac', $paciente->Email_Pac) ?>">
                             </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label"><strong>Senha</strong></label>
+                                <input type="text" name="Senha_Pac" class="form-control" 
+                                       value="<?= set_value('Senha_Pac', $paciente->Senha_Pac) ?>">
+                            </div>
                         </div>
 
                         <h5 class="text-secondary mt-4 mb-3">Endereço</h5>
                         <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label"><strong>CEP</strong></label>
+                                <input type="text" name="CEP" class="form-control" 
+                                       value="<?= set_value('CEP', $paciente->CEP) ?>">
+                            </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label"><strong>Endereço</strong></label>
                                 <input type="text" name="Endereco_Pac" class="form-control" 
@@ -73,7 +83,7 @@
                         </div>
 
                         <div class="mt-4 text-end">
-                            <a href="<?= site_url('medico/ver_paciente/' . $paciente->Id) ?>" class="btn btn-secondary">
+                            <a href="<?= site_url('medico/perfil_paciente/' . $paciente->Id) ?>" class="btn btn-secondary">
                                 <i class="bi bi-arrow-left"></i> Cancelar
                             </a>
                             <button type="submit" class="btn btn-primary">

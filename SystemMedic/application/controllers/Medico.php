@@ -8,6 +8,7 @@ class Medico extends CI_Controller {
         $this->load->library('session');
         $this->load->helper('url');
         $this->load->model('Paciente_model');
+        $this->load->model('Medico_model');
 
         if (!$this->session->userdata('usuario') || $this->session->userdata('tipo_usuario') != 'medico') {
             redirect('login');

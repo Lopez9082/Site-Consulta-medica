@@ -29,6 +29,7 @@
                     <div class="col-md-4"><strong>Telefone:</strong> <?= $paciente->Telefone ?></div>
                     <div class="col-md-4"><strong>Celular:</strong> <?= $paciente->Celular ?></div>
                     <div class="col-md-4"><strong>Email:</strong> <?= $paciente->Email_Pac ?></div>
+                    <div class="col-md-4"><strong>Senha:</strong> <?= $paciente->Senha_Pac ?></div>
                 </div>
 
                 <h5 class="text-secondary mt-4 mb-3">Endereço</h5>

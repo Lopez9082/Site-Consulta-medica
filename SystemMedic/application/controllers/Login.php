@@ -27,7 +27,7 @@ public function autenticar() {
             'usuario' => $paciente,
             'tipo_usuario' => 'paciente'
         ]);
-        redirect('login/dashboard');
+        redirect('paciente');
         return;
     }
 

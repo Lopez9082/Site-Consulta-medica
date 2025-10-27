@@ -7,70 +7,110 @@ class Balcao extends CI_Controller {
     {
         parent::__construct();
 
-        // Garante que só usuários do tipo "balcao" possam acessar
+        // Verifica login e permissão
         if (!$this->session->userdata('usuario') || $this->session->userdata('tipo_usuario') != 'balcao') {
             redirect('login');
         }
 
-        $this->load->model('Paciente_model');
-        $this->load->model('Medico_model');
-        $this->load->model('Colaborador_model');
-        $this->load->model('Consulta_model');
+        // Carrega models e libs
+        $this->load->model(['Paciente_model', 'Medico_model', 'Colaborador_model', 'Consulta_model']);
         $this->load->library('form_validation');
     }
 
-    // Dashboard do balcão
     public function index()
     {
         $this->load->view('dashboard_balcao');
     }
 
-    // ---------- PACIENTES ----------
+    // ============================================================
+    // ======================== PACIENTES =========================
+    // ============================================================
+
     public function pacientes()
     {
-        $data['conteudo'] = 'balcao/pacientes';
-        $data['pacientes'] = $this->Paciente_model->listar();
+        $data = [
+            'conteudo' => 'balcao/pacientes',
+            'pacientes' => $this->Paciente_model->listar()
+        ];
+        $this->load->view('dashboard_balcao', $data);
+    }
+
+    public function cadastrar_paciente()
+    {
+        $data['conteudo'] = 'cadastro/cadastrar_paciente';
         $this->load->view('dashboard_balcao', $data);
     }
 
     public function salvar_paciente()
     {
-        $this->form_validation->set_rules('Nome_Pac', 'Nome', 'required');
-        $this->form_validation->set_rules('Email_Pac', 'Email', 'required|valid_email');
-        $this->form_validation->set_rules('Senha_Pac', 'Senha', 'required');
-        $this->form_validation->set_rules('Cpf_cnpj', 'CPF/CNPJ', 'required');
+        $dados = [
+            'Nome_Pac'      => $this->input->post('Nome_Pac'),
+            'Data_Nas'      => $this->input->post('Data_Nas'),
+            'Cpf_cnpj'      => $this->input->post('Cpf_cnpj'),
+            'Sexo'          => $this->input->post('Sexo'),
+            'Email_Pac'     => $this->input->post('Email_Pac'),
+            'Senha_Pac'     => $this->input->post('Senha_Pac', PASSWORD_DEFAULT),
+            'Telefone'      => $this->input->post('Telefone'),
+            'Celular'       => $this->input->post('Celular'),
+            'Endereco_Pac'  => $this->input->post('Endereco_Pac'),
+            'CEP'           => $this->input->post('CEP'),
+            'Municipio'     => $this->input->post('Municipio'),
+            'UF'            => $this->input->post('UF')
+        ];
 
-        if ($this->form_validation->run() == FALSE) {
-            $data['pacientes'] = $this->Paciente_model->listar();
-            $data['conteudo'] = 'balcao/pacientes';
-            $this->load->view('dashboard_balcao', $data);
-        } else {
-            $dados = [
-                'Nome_Pac'      => $this->input->post('Nome_Pac'),
-                'Data_Nas'      => $this->input->post('Data_Nas'),
-                'Cpf_cnpj'      => $this->input->post('Cpf_cnpj'),
-                'Sexo'          => $this->input->post('Sexo'),
-                'Email_Pac'     => $this->input->post('Email_Pac'),
-                'Senha_Pac'     => password_hash($this->input->post('Senha_Pac'), PASSWORD_DEFAULT),
-                'Telefone'      => $this->input->post('Telefone'),
-                'Celular'       => $this->input->post('Celular'),
-                'Endereço_Pac'  => $this->input->post('Endereço_Pac'),
-                'CEP'           => $this->input->post('CEP'),
-                'Municipio'     => $this->input->post('Municipio'),
-                'UF'            => $this->input->post('UF'),
-            ];
-
-            $this->Paciente_model->inserir($dados);
+        if ($this->Paciente_model->inserir($dados)) {
             $this->session->set_flashdata('sucesso', 'Paciente cadastrado com sucesso!');
-            redirect('balcao/pacientes');
+        } else {
+            $this->session->set_flashdata('erro', 'Erro ao cadastrar paciente.');
         }
+        redirect('balcao/pacientes');
     }
 
-    // ---------- MÉDICOS ----------
+    public function perfil_paciente($id)
+    {
+        $data = [
+            'paciente' => $this->Paciente_model->get_by_id($id),
+            'consultas' => $this->Consulta_model->get_consultas_paciente($id),
+            'conteudo' => 'balcao/perfil_paciente'
+        ];
+
+        if (!$data['paciente']) show_404();
+        $this->load->view('dashboard_balcao', $data);
+    }
+
+    public function editar_paciente($id)
+    {
+        $data = [
+            'paciente' => $this->Paciente_model->get_by_id($id),
+            'conteudo' => 'balcao/editar_paciente'
+        ];
+        if (!$data['paciente']) show_404();
+        $this->load->view('dashboard_balcao', $data);
+    }
+
+    public function salvar_edicao_paciente($id)
+    {
+        $dados = $this->input->post();
+        $this->Paciente_model->update($id, $dados);
+        redirect('balcao/perfil_paciente/' . $id);
+    }
+
+    // ============================================================
+    // ========================= MÉDICOS ==========================
+    // ============================================================
+
     public function medicos()
     {
-        $data['conteudo'] = 'balcao/medicos';
-        $data['medicos'] = $this->Medico_model->listar();
+        $data = [
+            'conteudo' => 'balcao/medicos',
+            'medicos' => $this->Medico_model->listar()
+        ];
+        $this->load->view('dashboard_balcao', $data);
+    }
+
+    public function cadastrar_medico()
+    {
+        $data['conteudo'] = 'cadastro/cadastrar_medico';
         $this->load->view('dashboard_balcao', $data);
     }
 
@@ -81,7 +121,7 @@ class Balcao extends CI_Controller {
             'CRM'           => $this->input->post('CRM'),
             'Especialidade' => $this->input->post('Especialidade'),
             'Email_Med'     => $this->input->post('Email_Med'),
-            'Senha_Med'     => password_hash($this->input->post('Senha_Med'), PASSWORD_DEFAULT),
+            'Senha_Med'     => $this->input->post('Senha_Med'),
             'Telefone'      => $this->input->post('Telefone'),
             'Celular'       => $this->input->post('Celular'),
             'Endereco_Med'  => $this->input->post('Endereco_Med'),
@@ -100,61 +140,114 @@ class Balcao extends CI_Controller {
         redirect('balcao/medicos');
     }
 
-    // ---------- COLABORADORES ----------
+    public function perfil_medico($id)
+    {
+        $data = [
+            'medico' => $this->Medico_model->get_by_id($id),
+            'conteudo' => 'balcao/perfil_medico'
+        ];
 
-
-    // Perfil do colaborador
-    public function perfil_colaborador($id) {
-        // Busca o colaborador pelo ID
-        $data['colaborador'] = $this->Colaborador_model->get_by_id($id);
-        
-        // Se não encontrou, mostra 404
-        if (!$data['colaborador']) {
-            show_404();
-        }
-
-        $data['conteudo'] = 'balcao/perfil_colaborador';
+        if (!$data['medico']) show_404();
         $this->load->view('dashboard_balcao', $data);
     }
 
-    // Salvar edição do colaborador
-    public function salvar_edicao_colaborador($id) {
-        $dados = $this->input->post();
+    public function salvar_edicao_medico($id)
+{
+    $dados = $this->input->post();
 
-        // Atualiza os dados no banco
-        $this->Colaborador_model->update_colaborador($id, $dados);
-
-        // Redireciona para lista de colaboradores
-        redirect('balcao/colaboradores');
+    // Transformar array Dias_Semana em string
+    if (isset($dados['Dias_Semana']) && is_array($dados['Dias_Semana'])) {
+        $dados['Dias_Semana'] = implode(',', $dados['Dias_Semana']);
     }
 
-    // Lista de colaboradores
-    public function colaboradores() {
-        $data['colaboradores'] = $this->Colaborador_model->get_all();
-        $data['conteudo'] = 'balcao/colaboradores';
+    // Só altera senha se foi preenchida
+    if (!empty($this->input->post('Senha_Med'))) {
+        $dados['Senha_Med'] = password_hash($this->input->post('Senha_Med'), PASSWORD_DEFAULT);
+    } else {
+        unset($dados['Senha_Med']); // não sobrescrever
+    }
+
+    $this->Medico_model->update_medico($id, $dados);
+    $this->session->set_flashdata('sucesso', 'Dados atualizados com sucesso!');
+    redirect('balcao/medicos');
+}
+
+    // ============================================================
+    // ====================== COLABORADORES =======================
+    // ============================================================
+
+    public function colaboradores()
+    {
+        $data = [
+            'conteudo' => 'balcao/colaboradores',
+            'colaboradores' => $this->Colaborador_model->get_all()
+        ];
         $this->load->view('dashboard_balcao', $data);
     }
 
-    public function cadastrar_colaborador() {
-        $data['colaboradores'] = $this->Colaborador_model->get_all();
+    public function cadastrar_colaborador()
+    {
         $data['conteudo'] = 'cadastro/cadastrar_colaborador';
         $this->load->view('dashboard_balcao', $data);
     }
 
+    public function salvar_colaborador()
+    {
+        $dados = [
+            'Nome'     => $this->input->post('Nome'),
+            'Funcao'   => $this->input->post('Funcao'),
+            'Email'    => $this->input->post('Email'),
+            'Telefone' => $this->input->post('Telefone')
+        ];
 
-    
+        if ($this->Colaborador_model->inserir($dados)) {
+            $this->session->set_flashdata('sucesso', 'Colaborador cadastrado com sucesso!');
+        } else {
+            $db_error = $this->db->error();
+            $this->session->set_flashdata('erro', 'Erro ao cadastrar colaborador: ' . $db_error['message']);
+        }
+
+        redirect('balcao/colaboradores');
+    }
+
+    public function perfil_colaborador($id)
+    {
+        $data = [
+            'colaborador' => $this->Colaborador_model->get_by_id($id),
+            'conteudo' => 'balcao/perfil_colaborador'
+        ];
+
+        if (!$data['colaborador']) show_404();
+        $this->load->view('dashboard_balcao', $data);
+    }
+
+    public function salvar_edicao_colaborador($id)
+    {
+        $dados = $this->input->post();
+        $this->Colaborador_model->update_colaborador($id, $dados);
+        redirect('balcao/colaboradores');
+    }
+
+    // ============================================================
+    // ========================= CONSULTAS ========================
+    // ============================================================
+
+    // Aqui ficam os métodos de consultas (agenda, agendar, etc.)
+    // — deixei como estavam pois estão OK e já funcionando.
 
     // ---------- CONSULTAS ----------
-    // Exibe a lista de médicos para escolher
-public function consultas() {
+
+// Exibe a lista de médicos para escolher
+public function consultas()
+{
     $this->load->model('Consulta_model');
     $data['medicos'] = $this->Consulta_model->listar_medicos();
     $data['conteudo'] = 'balcao/consultas';
     $this->load->view('dashboard_balcao', $data);
 }
 
-    // Mostra agenda e formulário de agendamento
-    public function agenda_medico($id_medico = null)
+// Mostra agenda e formulário de agendamento
+public function agenda_medico($id_medico = null)
 {
     $this->load->model('Medico_model');
     $this->load->model('Paciente_model');
@@ -238,9 +331,6 @@ public function consultas() {
 }
 
 
-
-
-
 // Salva uma nova consulta
 public function agendar_consulta()
 {
@@ -280,112 +370,5 @@ public function agendar_consulta()
     // Recarrega a mesma tela passando novamente os dados do médico
     $this->agenda_medico($dados['Id_Medico']);
 }
-
-// Página de cadastro de paciente
-public function cadastrar_paciente()
-{
-     $data['conteudo'] = 'cadastro/cadastrar_paciente';
-    $this->load->view('dashboard_balcao', $data);
-}
-
-// Página de cadastro de médico
-public function cadastrar_medico()
-{
-     $data['conteudo'] = 'cadastro/cadastrar_medico';
-     $this->load->view('dashboard_balcao', $data);
-}
-
-
-// Salvar colaborador
-public function salvar_colaborador()
-{
-    $this->load->model('Colaborador_model');
-    $dados = $this->input->post();
-    $this->Colaborador_model->insert($dados);
-    redirect('balcao/lista_colaboradores');
-}
-
-public function perfil_medico($id)
-{
-    $this->load->model('Medico_model');
-
-    $data['medico'] = $this->Medico_model->get_by_id($id);
-    $data['conteudo'] = 'balcao/perfil_medico';
-
-    if (!$data['medico']) {
-        show_404();
-    }
-
-    $this->load->view('dashboard_balcao', $data);
-}
-
-
-public function salvar_edicao_medico($id)
-{
-    $this->load->model('Medico_model');
-
-    $dados = $this->input->post();
-    $this->Medico_model->update_medico($id, $dados);
-
-    redirect('balcao/medicos');
-}
-
-
-public function perfil_paciente($id)
-{
-    $this->load->model('Paciente_model');
-    $this->load->model('Consulta_model');
-
-    $data['paciente'] = $this->Paciente_model->get_by_id($id);
-    $data['consultas'] = $this->Consulta_model->get_consultas_paciente($id);
-
-    $data['paciente'] = $this->Paciente_model->get_by_id($id);
-    $data['conteudo'] = 'balcao/perfil_paciente';
-
-    if (!$data['paciente']) {
-        show_404();
-    }
-
-    $this->load->view('dashboard_balcao', $data);
-}
-
-public function editar_paciente($id)
-{
-    $this->load->model('Paciente_model');
-    $data['paciente'] = $this->Paciente_model->get_by_id($id);
-
-    $data['conteudo'] = 'balcao/editar_paciente';
-
-    if (!$data['paciente']) {
-        show_404();
-    }
-
-    $this->load->view('dashboard_balcao', $data);
-   
-
-
-}
-
-
-public function editar($id)
-{
-    $this->load->model('Paciente_model');
-
-    $dados = array(
-        'Nome_Pac'      => $this->input->post('Nome_Pac'),
-        'Data_Nas'      => $this->input->post('Data_Nas'),
-        'Cpf_cnpj'      => $this->input->post('Cpf_cnpj'),
-        'Telefone'      => $this->input->post('Telefone'),
-        'Celular'       => $this->input->post('Celular'),
-        'Email_Pac'     => $this->input->post('Email_Pac'),
-        'Endereco_Pac'  => $this->input->post('Endereco_Pac'),
-        'Municipio'     => $this->input->post('Municipio'),
-        'UF'            => $this->input->post('UF')
-    );
-
-    $this->Paciente_model->update($id, $dados);
-    redirect('balcao/perfil_paciente/' . $id);
-}
-
 
 }

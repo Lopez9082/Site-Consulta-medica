@@ -1,3 +1,16 @@
+<style>
+    #lista_pacientes {
+    border: 1px solid #1abc9c;
+    border-radius: 6px;
+    background-color: #fff;
+}
+
+#lista_pacientes li:hover {
+    background-color: #16a085;
+    color: #fff;
+}
+
+</style>
 <div class="container mt-4">
     <h3 class="text-center mb-3">Agenda do Dr. <?= $medico->Nome_Med ?? $medico->Nome ?></h3>
 
@@ -32,18 +45,15 @@
                 <strong>Dias de Trabalho:</strong> <?= $medico->Dias_Semana ?>
             </p>
 
-            <!-- SELEÇÃO DE PACIENTE -->
-            <div class="row g-3 mt-3">
-                <div class="col-md-6">
-                    <label>Paciente:</label>
-                    <select name="Id_Paciente" class="form-select" required>
-                        <option value="">Selecione...</option>
-                        <?php foreach ($pacientes as $pac): ?>
-                            <option value="<?= $pac->Id ?>"><?= $pac->Nome_Pac ?? $pac->Nome ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-            </div>
+            <!-- SELEÇÃO DE PACIENTE COM PESQUISA -->
+<h4 class="mt-4">Selecionar Paciente</h4>
+<div class="mb-3 position-relative" style="max-width:500px;">
+    <input type="text" id="pesquisa_paciente" class="form-control" placeholder="Digite nome, ID ou data de nascimento (dd/mm/aaaa)">
+    <ul id="lista_pacientes" class="list-group position-absolute w-100" style="z-index:1000; max-height:200px; overflow-y:auto; display:none;"></ul>
+</div>
+<input type="hidden" name="Id_Paciente" id="Id_Paciente">
+
+
 
             <button type="submit" class="btn btn-success w-100 mt-4">Confirmar Consulta</button>
         </form>
@@ -134,6 +144,65 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const campoPesquisa = document.getElementById('pesquisa_paciente');
+    const listaPacientes = document.getElementById('lista_pacientes');
+    const inputIdPaciente = document.getElementById('Id_Paciente');
+
+    // Array de pacientes do PHP para JS
+    const pacientes = <?= json_encode(array_map(function($pac) {
+        return [
+            'id' => $pac->Id,
+            'nome' => $pac->Nome_Pac ?? $pac->Nome,
+            'nascimento' => isset($pac->Data_Nas) ? date('d/m/Y', strtotime($pac->Data_Nas)) : ''
+        ];
+    }, $pacientes)) ?>;
+
+    // Função para filtrar pacientes
+    campoPesquisa.addEventListener('input', () => {
+        const termo = campoPesquisa.value.toLowerCase().trim();
+        listaPacientes.innerHTML = '';
+        if (!termo) {
+            listaPacientes.style.display = 'none';
+            inputIdPaciente.value = '';
+            return;
+        }
+
+        const resultados = pacientes.filter(p => 
+            p.nome.toLowerCase().includes(termo) ||
+            p.id.toString().includes(termo) ||
+            p.nascimento.includes(termo)
+        );
+
+        if (resultados.length === 0) {
+            listaPacientes.innerHTML = '<li class="list-group-item">Nenhum paciente encontrado</li>';
+        } else {
+            resultados.forEach(p => {
+                const li = document.createElement('li');
+                li.className = 'list-group-item list-group-item-action';
+                li.style.cursor = 'pointer';
+                li.textContent = `${p.id} - ${p.nome} (${p.nascimento || "Sem Data"})`;
+                li.addEventListener('click', () => {
+                    campoPesquisa.value = `${p.nome} (${p.nascimento || "Sem Data"})`;
+                    inputIdPaciente.value = p.id;
+                    listaPacientes.style.display = 'none';
+                });
+                listaPacientes.appendChild(li);
+            });
+        }
+
+        listaPacientes.style.display = 'block';
+    });
+
+    // Fecha a lista ao clicar fora
+    document.addEventListener('click', e => {
+        if (!campoPesquisa.contains(e.target) && !listaPacientes.contains(e.target)) {
+            listaPacientes.style.display = 'none';
+        }
+    });
+});
+
 </script>
 
 

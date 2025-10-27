@@ -16,27 +16,27 @@
             <ul class="nav flex-column">
 
                 <!-- Menu único de Cadastro com subitens -->
-                <li class="nav-item mb-2">
-    <a class="nav-link text-white d-flex justify-content-between align-items-center" 
-       data-bs-toggle="collapse" href="#collapseCadastro" role="button" 
-       aria-expanded="false" aria-controls="collapseCadastro">
-        Cadastro
-        <i class="bi bi-chevron-down" id="iconCadastro"></i>
-    </a>
-    <div class="collapse" id="collapseCadastro">
-        <ul class="nav flex-column ms-3">
-            <li class="nav-item mb-1">
-                <a href="<?= site_url('balcao/pacientes') ?>" class="nav-link text-white">Pacientes</a>
-            </li>
-            <li class="nav-item mb-1">
-                <a href="<?= site_url('balcao/medicos') ?>" class="nav-link text-white">Médicos</a>
-            </li>
-            <li class="nav-item mb-1">
-                <a href="<?= site_url('balcao/colaboradores') ?>" class="nav-link text-white">Colaboradores</a>
-            </li>
-        </ul>
-    </div>
-</li>
+            <li class="nav-item mb-2">
+            <a class="nav-link text-white d-flex justify-content-between align-items-center" 
+            data-bs-toggle="collapse" href="#collapseCadastro" role="button" 
+            aria-expanded="false" aria-controls="collapseCadastro">
+                Cadastro
+                <i class="bi bi-chevron-down" id="iconCadastro"></i>
+            </a>
+    
+                <div class="collapse" id="collapseCadastro">
+                    <ul class="nav flex-column ms-3">
+                        <li class="nav-item mb-1">
+                            <a href="<?= site_url('balcao/pacientes') ?>" class="nav-link text-white">Pacientes</a>
+                        </li>
+                        <li class="nav-item mb-1">
+                            <a href="<?= site_url('balcao/medicos') ?>" class="nav-link text-white">Médicos</a>
+                        </li>
+                        <li class="nav-item mb-1">
+                            <a href="<?= site_url('balcao/colaboradores') ?>" class="nav-link text-white">Colaboradores</a>
+                        </li>
+                    </ul>
+                </div>
 
 
                 <!-- Consultas -->
@@ -48,7 +48,7 @@
                 <li class="nav-item mt-4">
                     <a href="<?= site_url('login/sair') ?>" class="btn btn-danger w-100">Sair</a>
                 </li>
-            </ul>
+                
         </nav>
 
         <!-- CONTEÚDO PRINCIPAL -->
